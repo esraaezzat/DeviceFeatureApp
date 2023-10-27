@@ -4,23 +4,23 @@ import { useState } from "react";
 import { Colors } from "../../constants/colors";
 import OutlinedButton from "../UI/OutlinedButton";
 
-const ImagePicker = () => {
+const ImagePicker = ({ onTakeImage }) => {
 
     const [pickedImage, setPickedImage] = useState();
 
     // use useCameraPermissions to can use permission on IOS
     const [cameraPermissionInformation, requestPermission] = useCameraPermissions();
 
-    const verifyPermissions = async() => {
+    const verifyPermissions = async () => {
         // we need to check if we have permission to access before(we asked user aboutpermission before) or the we don't (UNDETERMINED)
-        if(cameraPermissionInformation.status === PermissionStatus.UNDETERMINED){
-           
+        if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
+
             // requestPermission open dailog and if user accept permission will return true otherwise will return false 
-            const permissionResponse =  await requestPermission();
+            const permissionResponse = await requestPermission();
             return permissionResponse.granted // granted will be true or false
         }
 
-        if(cameraPermissionInformation.status === PermissionStatus.DENIED){
+        if (cameraPermissionInformation.status === PermissionStatus.DENIED) {
             Alert.alert(
                 'Insuffecient Permissions!',
                 'You need to grant camera permission to use this app.'
@@ -35,7 +35,7 @@ const ImagePicker = () => {
     const takeImageHandler = async () => {
         const hasPermission = await verifyPermissions();
 
-        if(!hasPermission){
+        if (!hasPermission) {
             return;
         }
 
@@ -51,25 +51,26 @@ const ImagePicker = () => {
             quality: 0.5, // to have a small image 
         });
         setPickedImage(image.uri);
+        onTakeImage(image.uri)
 
     }
     let imagePreview = <Text> No Image Taken Yet. </Text>
 
-    if(pickedImage){
-        imagePreview =  <Image source={{uri: pickedImage}} style={styles.image} />
+    if (pickedImage) {
+        imagePreview = <Image source={{ uri: pickedImage }} style={styles.image} />
     }
 
     return <View>
         <View style={styles.imagePreview}>
-           {imagePreview}
+            {imagePreview}
         </View>
-        <OutlinedButton  onPress={takeImageHandler} icon='camera' >Take Image</OutlinedButton>
+        <OutlinedButton onPress={takeImageHandler} icon='camera' >Take Image</OutlinedButton>
     </View>
 }
 
 export default ImagePicker;
 const styles = StyleSheet.create({
-    imagePreview:{
+    imagePreview: {
         width: '100%',
         height: 200,
         marginVertical: 8,
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         overflow: 'hidden'
     },
-    image:{
+    image: {
         width: '100%',
         height: '100%'
     }
