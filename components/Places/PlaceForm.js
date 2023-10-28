@@ -4,9 +4,10 @@ import { Colors } from "../../constants/colors";
 import ImagePicker from "./ImagePicker";
 import LoactionPicker from "./LocationPicker";
 import Button from "../UI/Button";
+import { Place } from "../../models/place";
 
 
-const PlaceForm = () => {
+const PlaceForm = ({ onCreatePlace }) => {
 
     const [selectedImage, setSelectedImage] = useState();
     const [pickedLocation, setPickedLocation] = useState();
@@ -19,11 +20,13 @@ const PlaceForm = () => {
     }
     const pickLocationHandler = useCallback((location) => {
         setPickedLocation(location);
-    },[])
+    }, [])
     const savePlaceHandler = () => {
-        console.log('title = ', enteredTitle);
-        console.log('pickedImage = ', selectedImage);
-        console.log('pickedLocation = ', pickedLocation);
+        // handle static image
+
+        const image = selectedImage ? selectedImage : 'https://picsum.photos/seed/picsum/200/300'
+        const placeData = new Place(enteredTitle, image, pickedLocation);
+        onCreatePlace(placeData);
     }
     return (
         <ScrollView style={styles.form}>
@@ -31,8 +34,8 @@ const PlaceForm = () => {
                 <Text style={styles.lable}>Title</Text>
                 <TextInput style={styles.input} onChangeText={chaneTitleHandler} value={enteredTitle} />
             </View>
-            <ImagePicker onTakeImage={takeImageHandler}/>
-            <LoactionPicker onPickLocation={pickLocationHandler}/>
+            <ImagePicker onTakeImage={takeImageHandler} />
+            <LoactionPicker onPickLocation={pickLocationHandler} />
             <Button onPress={savePlaceHandler}>Add Place</Button>
         </ScrollView>
     )

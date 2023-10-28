@@ -9,18 +9,18 @@ export const getMapPreview = (lat, lng) => {
 
 export const getAddress = async(lat, lng) => {
 
-  const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&${GOOGLE_API_KEY}`;
-  const response = await fetch(url);
+  // const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&${GOOGLE_API_KEY}`;
+  // const response = await fetch(url);
 
-  if(!response.ok){
-    throw new Error('Failed to fetch the address')
-  }
+  // if(!response.ok){
+  //   throw new Error('Failed to fetch the address')
+  // }
 
   // json() take a json and parse it to obj
   let address = 'a const address'
-  const data = response && await response.json();
-  if(data){
-     address = data.result[0].formatted_address;
-  }
+  // const data = response && await response.json();
+  // if(data){
+  //    address = data.result[0].formatted_address;
+  // }
   return address;
 }
