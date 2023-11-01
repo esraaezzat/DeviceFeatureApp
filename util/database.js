@@ -91,8 +91,14 @@ export const fetchPlacesDetails = (id) => {
         database.transaction((tx) => {
             tx.executeSql('SELECT * FROM places WHERE id = ?', [id],
             (_,result) => {
-                console.log('data from db ', result)
-                resolve(result.rows._array[0]); // always return array of one object that contains the id
+                console.log('data from db ', result);
+                const dbPlace = result.rows._array[0];
+                const place = new Place(dbPlace.title, 
+                    dbPlace.imageUri, 
+                    {lat: dbPlace.lat, lng:dbPlace.lng, address: dbPlace.address},
+                    dbPlace.id
+                    )
+                resolve(place); // always return array of one object that contains the id
             },
             (_,err) => {
                 reject(err)

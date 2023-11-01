@@ -3,6 +3,7 @@ import OutlinedButton from "../components/UI/OutlinedButton";
 import { Colors } from "../constants/colors";
 import { useEffect, useState } from "react";
 import { fetchPlacesDetails } from "../util/database";
+import screenNames from "../constants/screenNames";
 
 const PlaceDetails = ({ route, navigation }) => {
     const selectedPlaceId = route.params.placeId;
@@ -20,7 +21,12 @@ const PlaceDetails = ({ route, navigation }) => {
     }, [selectedPlaceId]);
 
 
-    const showOnMapHandler = () => { }
+    const showOnMapHandler = () => {
+        navigation.navigate(screenNames.MAP, {
+            initialLat: fetchedPlace.location.lat,
+            initialLng: fetchedPlace.location.lng
+        });
+    }
 
     if (!fetchedPlace) {
         return <View style={styles.fallback}>

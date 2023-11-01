@@ -4,15 +4,19 @@ import MapVeiw, { Marker } from 'react-native-maps';
 import screenNames from '../constants/screenNames';
 import IconButton from '../components/UI/IconButton';
 
-const Map = ({ navigation }) => {
+const Map = ({ navigation, route }) => {
     // initialRegion determine which region should displayed on the map when it laoded
     // latitude & latitude determine the center location of map
     // latitudeDelta & longitudeDelta how much region beside the center should displayed
 
-    const [selectedLocation, setSelectedLocation] = useState()
+    const initialLocation = route.params && {
+        lat: route.params.initialLat,
+        lng: route.params.initialLng
+    }
+    const [selectedLocation, setSelectedLocation] = useState(initialLocation)
     const region = {
-        latitude: 30.033333,
-        longitude: 31.233334,
+        latitude: initialLocation ? initialLocation.lat : 30.033333,
+        longitude: initialLocation ? initialLocation.lng : 31.233334,
         latitudeDelta: 0.0992,
         longitudeDelta: 0.0421
     };
@@ -38,6 +42,9 @@ function will not change every time when reload the component as this change wil
     },[navigation, selectedLocation])
  
     const selectLocationHandler = (event) => {
+        if(initialLocation){
+            return;
+        }
         const lat = event.nativeEvent.coordinate.latitude;
         const lng = event.nativeEvent.coordinate.longitude;
 
@@ -48,6 +55,10 @@ function will not change every time when reload the component as this change wil
     }
 
     useLayoutEffect(() => {
+        if(initialLocation){
+            return;
+        }
+
         navigation.setOptions({
             headerRight: ({ tintColor }) =>
                 <IconButton
@@ -57,7 +68,7 @@ function will not change every time when reload the component as this change wil
                     onPress={ savePickedLocationHandler }
                 />
         })
-    }, [navigation, savePickedLocationHandler]);
+    }, [navigation, savePickedLocationHandler, initialLocation]);
 
     return <MapVeiw
         style={styles.map}
