@@ -59,7 +59,7 @@ export const fetchPlaces = () => {
         database.transaction((tx) => {
             tx.executeSql('SELECT * FROM places', [],
                 (_, result) => {
-                    console.log('places from db ',result.rows._array)
+                    //console.log('places from db ',result.rows._array)
                     const places = [];
                     for (const db of result.rows._array) {
                         places.push(new Place(
@@ -73,6 +73,7 @@ export const fetchPlaces = () => {
                             db.id
                         ));
                     }
+                   console.log(places)
                     resolve(places)
                 },
                 (_, err) => {
@@ -81,7 +82,8 @@ export const fetchPlaces = () => {
                 },
             );
         })
-    })
+    });
+    return promise;
 }
 
 export const fetchPlacesDetails = (id) => {
@@ -91,7 +93,7 @@ export const fetchPlacesDetails = (id) => {
         database.transaction((tx) => {
             tx.executeSql('SELECT * FROM places WHERE id = ?', [id],
             (_,result) => {
-                console.log('data from db ', result);
+               // console.log('data from db ', result);
                 const dbPlace = result.rows._array[0];
                 const place = new Place(dbPlace.title, 
                     dbPlace.imageUri, 

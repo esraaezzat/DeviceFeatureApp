@@ -12,7 +12,7 @@ const PlaceDetails = ({ route, navigation }) => {
         //use selectedPlaceId to fetch place
         const loadPlaceData = async () => {
             const place = await fetchPlacesDetails(selectedPlaceId);
-            setFetchedPlace(place);
+            setFetchedPlace('place', place); 
             navigation.setOptions({
                 title: place.title,
             })
