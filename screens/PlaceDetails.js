@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { Image, ScrollView, StyleSheet, View, Text } from "react-native";
 import OutlinedButton from "../components/UI/OutlinedButton";
 import { Colors } from "../constants/colors";
 import { useEffect, useState } from "react";
@@ -12,7 +12,7 @@ const PlaceDetails = ({ route, navigation }) => {
         //use selectedPlaceId to fetch place
         const loadPlaceData = async () => {
             const place = await fetchPlacesDetails(selectedPlaceId);
-            setFetchedPlace('place', place); 
+            setFetchedPlace(place); 
             navigation.setOptions({
                 title: place.title,
             })

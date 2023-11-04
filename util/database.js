@@ -73,7 +73,7 @@ export const fetchPlaces = () => {
                             db.id
                         ));
                     }
-                   console.log(places)
+
                     resolve(places)
                 },
                 (_, err) => {

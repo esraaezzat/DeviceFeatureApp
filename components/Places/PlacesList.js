@@ -11,7 +11,7 @@ const PlacesList = ({ places }) => {
     const selectPlaceHandler = (id) => {
         navigation.navigate(screenNames.PLACE_DETAILS, {
             placeId: id
-        })
+        });
     }
     if (!places || places.length === 0) {
 
